@@ -14,51 +14,66 @@
     <style>
         /* 1. 제목 겹침 방지 설정 */
         header {
-            position: fixed;      /* 상단 고정 */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;         /* 헤더 높이 설정 */
-            background-color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            z-index: 1000;        /* 메모지보다 위로 오게 설정 */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed !important;      /* 상단 고정 */
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 70px !important;         /* 헤더 높이 설정 */
+            background-color: #fff !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 0 20px !important;
+            z-index: 2000 !important;        /* 메모지보다 위로 오게 설정 */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
         }
 
-        /* 2. 보드(메인) 영역 여백 확보 */
+        /* 2. 보드(메인) 영역 여백 확보 및 겹침 방지 */
         #board {
-            padding-top: 100px;   /* 헤더 높이(70px)보다 넉넉하게 주어 겹침 방지 */
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;            /* 메모지 사이 간격 */
-            padding-bottom: 50px;
+            padding-top: 100px !important;   /* 헤더 높이(70px)보다 넉넉하게 주어 겹침 방지 */
+            display: flex !important;
+            flex-wrap: wrap !important;      /* 자리가 없으면 다음 줄로 자동으로 넘김 */
+            justify-content: center !important;
+            gap: 25px !important;            /* 메모지 사이 간격 */
+            padding-bottom: 50px !important;
+            height: auto !important;
+            position: relative !important;
         }
 
-        /* 3. 메모지 크기 자동 조절 (이 클래스명은 script.js에서 생성하는 클래스와 같아야 함) */
-        /* 만약 script.js에서 클래스를 다른걸로 준다면 이 이름(.note-item)을 그것으로 바꿔주세요 */
+        /* 3. 메모지 크기 자동 조절 및 위치 고정 해제 */
         .note-item { 
-            width: 280px;         /* 가로 길이는 유지 */
-            height: auto !important; /* 높이는 글자 수에 따라 자동 (우선순위 높임) */
-            min-height: 180px;    /* 최소 높이 지정 */
+            /* JS에서 강제로 지정하는 위치값을 무시하고 순서대로 쌓이게 함 */
+            position: relative !important; 
+            top: auto !important;
+            left: auto !important;
+
+            width: 280px !important;         /* 가로 길이는 유지 */
+            height: auto !important;         /* 높이는 글자 수에 따라 자동 (핵심!) */
+            min-height: 180px !important;    /* 최소 높이 지정 */
             
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.08);
+            background: #fff !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.08) !important;
             
             /* 글자 관련 설정 */
-            word-break: break-all; /* 긴 단어 잘림 방지 */
-            white-space: pre-wrap; /* 줄바꿈(엔터) 적용 */
-            line-height: 1.6;
-            font-size: 16px;
+            word-break: break-all !important; /* 긴 단어 잘림 방지 */
+            white-space: pre-wrap !important; /* 줄바꿈(엔터) 적용 */
+            line-height: 1.6 !important;
+            font-size: 16px !important;
+            margin-bottom: 10px !important;   /* 아래 메모지와 겹침 방지 */
+        }
+
+        /* 이미지 첨부 시 메모지 안에서 안 넘치게 조절 */
+        .note-item img {
+            max-width: 100% !important;
+            height: auto !important;
+            margin-top: 10px !important;
+            border-radius: 5px !important;
         }
 
         /* 추가: + 버튼이 제목에 가려지지 않게 */
         #add-btn {
-            z-index: 1001;
+            z-index: 2001 !important;
         }
     </style>
 </head>
