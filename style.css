@@ -1,91 +1,97 @@
+/* 1. 기본 설정 */
 body {
-    background-color: #FFFDE7;
     margin: 0;
-    font-family: 'Nanum Gothic', sans-serif;
-    overflow-x: hidden;
-    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+    background-color: #fdf6e3;
+    font-family: sans-serif;
 }
 
-.logo {
-    position: fixed;
-    top: 20px; left: 20px;
-    font-size: 20px; color: #5D4037;
-    margin: 0; z-index: 100;
+/* 2. 상단 제목 고정 (겹침 방지) */
+header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 70px !important;
+    background-color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    z-index: 2000 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    box-sizing: border-box !important;
 }
 
+/* 3. 보드 영역 (메모지 배치 핵심) */
 #board {
-    display: flex; flex-wrap: wrap; gap: 15px;
-    padding: 80px 15px 120px 15px; justify-content: center;
+    padding: 110px 20px 50px 20px !important; /* 헤더 높이만큼 여백 */
+    display: flex !important;
+    flex-wrap: wrap !important;      /* 자리가 없으면 다음 줄로 넘김 */
+    justify-content: center !important;
+    align-items: flex-start !important; /* 중요: 각 메모지가 자기 높이만 차지함 */
+    gap: 30px !important;            /* 메모지 사이 간격 (겹침 방지) */
+    width: 100% !important;
+    min-height: 100vh !important;
+    box-sizing: border-box !important;
 }
 
+/* 4. 메모지(post-it) 스타일 (길이 자동 조절) */
 .post-it {
-    width: 44%; min-width: 150px; max-width: 260px; min-height: 180px;
-    padding: 15px; box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
-    position: relative; display: flex; flex-direction: column;
-    box-sizing: border-box; transition: transform 0.2s;
+    position: relative !important;   /* JS의 absolute 위치 지정을 무시함 */
+    top: auto !important;
+    left: auto !important;
+    
+    width: 280px !important;         /* 가로 길이는 유지 */
+    height: auto !important;         /* 글자 수에 따라 세로로 늘어남 (핵심) */
+    min-height: 180px !important;    /* 글이 적어도 기본 크기 유지 */
+    
+    padding: 20px !important;
+    border-radius: 10px !important;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1) !important;
+    box-sizing: border-box !important;
+    
+    /* 글자 관련 설정 */
+    word-break: break-all !important;
+    white-space: pre-wrap !important;
+    line-height: 1.6 !important;
+    font-size: 16px !important;
+    
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-@media (max-width: 380px) { .post-it { width: 92%; max-width: none; } }
+/* 메모지 내 이미지 및 글자 */
+.post-it img {
+    max-width: 100% !important;
+    height: auto !important;
+    margin-bottom: 10px !important;
+    border-radius: 5px !important;
+}
 
-.post-it img { width: 100%; border-radius: 4px; margin-bottom: 10px; object-fit: cover; }
-.post-it h3 { font-size: 1rem; margin: 0 0 8px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 5px; }
-.post-it p { font-size: 0.9rem; line-height: 1.5; margin: 0; white-space: pre-wrap; word-break: break-all; }
+.post-it h3 { margin: 0 0 10px 0; font-size: 1.1em; }
+.post-it p { margin: 0; }
 
+/* 5. 삭제 버튼(x) */
 .del-btn {
-    display: none; position: absolute; top: -8px; right: -8px;
-    background: #FF5252; color: white; border: none; border-radius: 50%;
-    width: 26px; height: 26px; cursor: pointer; font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 5;
+    position: absolute !important;
+    top: 5px !important;
+    right: 5px !important;
+    background: none !important;
+    border: none !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    color: rgba(0,0,0,0.3) !important;
 }
+.del-btn:hover { color: red !important; }
 
-.post-it.mine .del-btn { display: block; }
-
-#add-btn {
-    position: fixed; bottom: 30px; right: 30px;
-    width: 65px; height: 65px; background-color: #FF7043; color: white;
-    border-radius: 50%; border: none; font-size: 35px;
-    cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000;
+/* 6. 기타 버튼 및 모달 */
+#add-btn { z-index: 2100 !important; }
+.modal-overlay, .black-confirm-overlay { 
+    z-index: 3000 !important; 
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.5);
+    display: none; /* JS에서 조절 */
+    justify-content: center;
+    align-items: center;
 }
-
-.modal-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); z-index: 2000;
-    align-items: center; justify-content: center;
-}
-
-.modal-window {
-    background: white; padding: 20px; border-radius: 15px;
-    width: 88%; max-width: 380px; display: flex; flex-direction: column; gap: 12px;
-}
-
-.modal-window input, .modal-window textarea { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
-
-#note-image { display: none; }
-.file-label {
-    background: #f8f8f8; padding: 12px; text-align: center;
-    border-radius: 8px; cursor: pointer; border: 1px dashed #ccc; font-size: 14px;
-}
-
-#file-name { font-size: 12px; color: #888; margin: -5px 0 0 0; text-align: center; }
-
-.btn-group { display: flex; gap: 10px; }
-.btn-group button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.submit-btn { background-color: #4CAF50; color: white; }
-.cancel-btn { background-color: #eee; }
-
-/* 검은색 네모 모달 스타일 */
-.black-confirm-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); z-index: 5000;
-    align-items: center; justify-content: center;
-}
-
-.black-confirm-window {
-    background: #000; color: #fff; padding: 30px;
-    width: 260px; text-align: center; border-radius: 0;
-}
-
-.black-confirm-btns { display: flex; gap: 10px; margin-top: 20px; }
-.black-confirm-btns button { flex: 1; padding: 12px; border: 1px solid #444; cursor: pointer; font-weight: bold; }
-.del-yes { background: #d32f2f; color: white; border: none !important; }
-.del-no { background: #333; color: white; }
