@@ -1,4 +1,4 @@
-/* 1. 기본 배경 설정 */
+/* 1. 기본 배경 및 폰트 */
 body {
     margin: 0;
     padding: 0;
@@ -6,14 +6,14 @@ body {
     font-family: 'Malgun Gothic', sans-serif;
 }
 
-/* 2. 상단 헤더 고정 (제목 겹침 방지) */
+/* 2. 헤더 고정 (제목 겹침 방지) */
 header {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     height: 60px !important;
-    background-color: #fff !important;
+    background-color: white !important;
     display: flex !important;
     align-items: center !important;
     padding: 0 20px !important;
@@ -28,34 +28,35 @@ header h1 {
     color: #333;
 }
 
-/* 3. 메모지 보드 (여백을 없애고 따닥따닥 붙이는 핵심 설정) */
+/* 3. 보드 영역 (여백 제거 핵심 설정) */
 #board {
-    padding: 80px 15px 100px 15px !important; /* 위쪽 헤더 여백 */
+    padding: 80px 15px 100px 15px !important; /* 헤더 여백 */
     
-    /* [핵심] flex 대신 다단(Column) 레이아웃 사용 */
+    /* [핵심] flex를 끄고 다단 레이아웃 적용 */
     display: block !important; 
-    column-count: 4 !important; /* 기본 4줄 배치 */
-    column-gap: 15px !important;   /* 좌우 간격 */
+    column-count: 5 !important; /* PC 기준 5줄 배치 */
+    column-gap: 15px !important;   /* 카드 사이 좌우 간격 */
     
     width: 100% !important;
-    max-width: 1400px !important;
+    max-width: 1600px !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
 }
 
-/* 반응형 설정: 화면이 작아지면 줄 수를 줄임 */
-@media (max-width: 1200px) { #board { column-count: 3 !important; } }
+/* 화면 크기에 따라 줄 수 조절 (반응형) */
+@media (max-width: 1400px) { #board { column-count: 4 !important; } }
+@media (max-width: 1100px) { #board { column-count: 3 !important; } }
 @media (max-width: 800px) { #board { column-count: 2 !important; } }
 @media (max-width: 500px) { #board { column-count: 1 !important; } }
 
-/* 4. 개별 메모지(post-it) 설정 */
+/* 4. 포스트잇(post-it) 스타일 (따닥따닥 붙이기) */
 .post-it {
-    /* [핵심] 세로로 따닥따닥 붙게 만드는 설정 */
+    /* [핵심] inline-block과 break-inside 설정이 있어야 카드가 안 겹치고 위로 붙음 */
     display: inline-block !important; 
-    break-inside: avoid !important; /* 포스트잇이 중간에 잘려서 다음 칸으로 넘어가지 않게 함 */
+    break-inside: avoid !important; 
     
     width: 100% !important; 
-    margin-bottom: 15px !important; /* 상하 간격 (원하는 만큼 조절) */
+    margin-bottom: 15px !important; /* 아래 카드와의 간격 */
     
     position: relative !important;
     background: #fff;
@@ -64,13 +65,13 @@ header h1 {
     box-shadow: 3px 3px 10px rgba(0,0,0,0.1) !important;
     box-sizing: border-box !important;
     
-    /* 글자 설정 */
+    /* 글자 줄바꿈 설정 */
     word-break: break-all !important;
     white-space: pre-wrap !important;
-    line-height: 1.5 !important;
+    line-height: 1.6 !important;
 }
 
-/* 메모지 내부 요소 */
+/* 포스트잇 내부 요소 */
 .post-it img {
     width: 100% !important;
     height: auto !important;
@@ -94,17 +95,17 @@ header h1 {
 /* 5. 삭제 버튼(x) */
 .del-btn {
     position: absolute !important;
-    top: 8px !important;
-    right: 8px !important;
+    top: 5px !important;
+    right: 5px !important;
     background: none !important;
     border: none !important;
-    font-size: 18px !important;
+    font-size: 20px !important;
     cursor: pointer !important;
-    color: #ccc !important;
+    color: #ddd !important;
 }
 .del-btn:hover { color: #ff5252 !important; }
 
-/* 6. 작성 버튼 및 모달 레이어 */
+/* 6. 추가 버튼 및 모달 */
 #add-btn {
     position: fixed;
     bottom: 30px;
@@ -117,16 +118,16 @@ header h1 {
     font-size: 30px;
     border: none;
     cursor: pointer;
-    z-index: 2100 !important;
+    z-index: 2500;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .modal-overlay, .black-confirm-overlay { 
-    z-index: 3000 !important;
+    z-index: 3000;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5);
-    display: none; /* JS 제어 */
+    display: none;
     justify-content: center;
     align-items: center;
 }
