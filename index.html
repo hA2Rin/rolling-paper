@@ -1,123 +1,62 @@
 <!DOCTYPE html>
-
 <html lang="ko">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     <title>하루룽 롤링페이퍼</title>
-
     
-
     <link rel="icon" href="images.png" type="image/png">
-
     
-
     <link rel="stylesheet" href="style.css">
-
     
-
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
 </head>
-
 <body>
 
-
-
     <header>
-
         <h1 class="logo">롤링페이퍼</h1>
-
     </header>
-
-
 
     <main id="board"></main>
 
-
-
     <button id="add-btn" onclick="openModal()">+</button>
 
-
-
     <div id="modal" class="modal-overlay">
-
         <div class="modal-window">
-
             <h2>메시지 남기기</h2>
-
             <input type="text" id="note-title" placeholder="제목 또는 이름 (필수)">
-
             <textarea id="note-content" rows="5" placeholder="내용 입력"></textarea>
-
             
-
             <label for="note-image" class="file-label">📷 사진 첨부</label>
-
             <input type="file" id="note-image" accept="image/*">
-
             <p id="file-name"></p>
 
-
-
             <div class="btn-group">
-
                 <button class="submit-btn" onclick="addNote()">완료</button>
-
                 <button class="cancel-btn" onclick="closeModal()">취소</button>
-
             </div>
-
         </div>
-
     </div>
-
-
 
     <div id="alert-modal" class="black-confirm-overlay">
-
         <div class="black-confirm-window">
-
             <p id="alert-message"></p>
-
             <div class="black-confirm-btns">
-
                 <button onclick="closeAlert()" class="del-no">확인</button>
-
             </div>
-
         </div>
-
     </div>
-
-
 
     <div id="delete-confirm-modal" class="black-confirm-overlay">
-
         <div class="black-confirm-window">
-
             <p>정말 이 메모를 지울까요?</p>
-
             <div class="black-confirm-btns">
-
                 <button onclick="confirmDelete()" class="del-yes">삭제</button>
-
                 <button onclick="closeDeleteConfirm()" class="del-no">취소</button>
-
             </div>
-
         </div>
-
     </div>
 
-
-
     <script src="script.js"></script>
-
 </body>
-
 </html>
