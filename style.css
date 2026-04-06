@@ -1,0 +1,91 @@
+body {
+    background-color: #FFFDE7;
+    margin: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.logo {
+    position: fixed;
+    top: 20px; left: 20px;
+    font-size: 20px; color: #5D4037;
+    margin: 0; z-index: 100;
+}
+
+#board {
+    display: flex; flex-wrap: wrap; gap: 15px;
+    padding: 80px 15px 120px 15px; justify-content: center;
+}
+
+.post-it {
+    width: 44%; min-width: 150px; max-width: 260px; min-height: 180px;
+    padding: 15px; box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+    position: relative; display: flex; flex-direction: column;
+    box-sizing: border-box; transition: transform 0.2s;
+}
+
+@media (max-width: 380px) { .post-it { width: 92%; max-width: none; } }
+
+.post-it img { width: 100%; border-radius: 4px; margin-bottom: 10px; object-fit: cover; }
+.post-it h3 { font-size: 1rem; margin: 0 0 8px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 5px; }
+.post-it p { font-size: 0.9rem; line-height: 1.5; margin: 0; white-space: pre-wrap; word-break: break-all; }
+
+.del-btn {
+    display: none; position: absolute; top: -8px; right: -8px;
+    background: #FF5252; color: white; border: none; border-radius: 50%;
+    width: 26px; height: 26px; cursor: pointer; font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 5;
+}
+
+.post-it.mine .del-btn { display: block; }
+
+#add-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    width: 65px; height: 65px; background-color: #FF7043; color: white;
+    border-radius: 50%; border: none; font-size: 35px;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000;
+}
+
+.modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); z-index: 2000;
+    align-items: center; justify-content: center;
+}
+
+.modal-window {
+    background: white; padding: 20px; border-radius: 15px;
+    width: 88%; max-width: 380px; display: flex; flex-direction: column; gap: 12px;
+}
+
+.modal-window input, .modal-window textarea { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+
+#note-image { display: none; }
+.file-label {
+    background: #f8f8f8; padding: 12px; text-align: center;
+    border-radius: 8px; cursor: pointer; border: 1px dashed #ccc; font-size: 14px;
+}
+
+#file-name { font-size: 12px; color: #888; margin: -5px 0 0 0; text-align: center; }
+
+.btn-group { display: flex; gap: 10px; }
+.btn-group button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+.submit-btn { background-color: #4CAF50; color: white; }
+.cancel-btn { background-color: #eee; }
+
+/* 검은색 네모 모달 스타일 */
+.black-confirm-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); z-index: 5000;
+    align-items: center; justify-content: center;
+}
+
+.black-confirm-window {
+    background: #000; color: #fff; padding: 30px;
+    width: 260px; text-align: center; border-radius: 0;
+}
+
+.black-confirm-btns { display: flex; gap: 10px; margin-top: 20px; }
+.black-confirm-btns button { flex: 1; padding: 12px; border: 1px solid #444; cursor: pointer; font-weight: bold; }
+.del-yes { background: #d32f2f; color: white; border: none !important; }
+.del-no { background: #333; color: white; }
