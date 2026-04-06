@@ -1,128 +1,123 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>하루룽 롤링페이퍼</title>
+
     
+
     <link rel="icon" href="images.png" type="image/png">
+
     
+
     <link rel="stylesheet" href="style.css">
+
     
+
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-    <style>
-        /* 1. 제목 겹침 방지 설정 */
-        header {
-            position: fixed !important;      /* 상단 고정 */
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 70px !important;         /* 헤더 높이 설정 */
-            background-color: #fff !important;
-            display: flex !important;
-            align-items: center !important;
-            padding: 0 20px !important;
-            z-index: 2000 !important;        /* 메모지보다 위로 오게 설정 */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-        }
-
-        /* 2. 보드(메인) 영역 여백 확보 및 겹침 방지 */
-        #board {
-            padding-top: 100px !important;   /* 헤더 높이(70px)보다 넉넉하게 주어 겹침 방지 */
-            display: flex !important;
-            flex-wrap: wrap !important;      /* 자리가 없으면 다음 줄로 자동으로 넘김 */
-            justify-content: center !important;
-            gap: 25px !important;            /* 메모지 사이 간격 */
-            padding-bottom: 50px !important;
-            height: auto !important;
-            position: relative !important;
-        }
-
-        /* 3. 메모지 크기 자동 조절 및 위치 고정 해제 */
-        .note-item { 
-            /* JS에서 강제로 지정하는 위치값을 무시하고 순서대로 쌓이게 함 */
-            position: relative !important; 
-            top: auto !important;
-            left: auto !important;
-
-            width: 280px !important;         /* 가로 길이는 유지 */
-            height: auto !important;         /* 높이는 글자 수에 따라 자동 (핵심!) */
-            min-height: 180px !important;    /* 최소 높이 지정 */
-            
-            background: #fff !important;
-            padding: 20px !important;
-            border-radius: 10px !important;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.08) !important;
-            
-            /* 글자 관련 설정 */
-            word-break: break-all !important; /* 긴 단어 잘림 방지 */
-            white-space: pre-wrap !important; /* 줄바꿈(엔터) 적용 */
-            line-height: 1.6 !important;
-            font-size: 16px !important;
-            margin-bottom: 10px !important;   /* 아래 메모지와 겹침 방지 */
-        }
-
-        /* 이미지 첨부 시 메모지 안에서 안 넘치게 조절 */
-        .note-item img {
-            max-width: 100% !important;
-            height: auto !important;
-            margin-top: 10px !important;
-            border-radius: 5px !important;
-        }
-
-        /* 추가: + 버튼이 제목에 가려지지 않게 */
-        #add-btn {
-            z-index: 2001 !important;
-        }
-    </style>
 </head>
+
 <body>
 
+
+
     <header>
+
         <h1 class="logo">롤링페이퍼</h1>
+
     </header>
+
+
 
     <main id="board"></main>
 
+
+
     <button id="add-btn" onclick="openModal()">+</button>
 
+
+
     <div id="modal" class="modal-overlay">
+
         <div class="modal-window">
+
             <h2>메시지 남기기</h2>
+
             <input type="text" id="note-title" placeholder="제목 또는 이름 (필수)">
+
             <textarea id="note-content" rows="5" placeholder="내용 입력"></textarea>
+
             
+
             <label for="note-image" class="file-label">📷 사진 첨부</label>
+
             <input type="file" id="note-image" accept="image/*">
+
             <p id="file-name"></p>
 
+
+
             <div class="btn-group">
+
                 <button class="submit-btn" onclick="addNote()">완료</button>
+
                 <button class="cancel-btn" onclick="closeModal()">취소</button>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div id="alert-modal" class="black-confirm-overlay">
+
         <div class="black-confirm-window">
+
             <p id="alert-message"></p>
+
             <div class="black-confirm-btns">
+
                 <button onclick="closeAlert()" class="del-no">확인</button>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div id="delete-confirm-modal" class="black-confirm-overlay">
+
         <div class="black-confirm-window">
+
             <p>정말 이 메모를 지울까요?</p>
+
             <div class="black-confirm-btns">
+
                 <button onclick="confirmDelete()" class="del-yes">삭제</button>
+
                 <button onclick="closeDeleteConfirm()" class="del-no">취소</button>
+
             </div>
+
         </div>
+
     </div>
 
+
+
     <script src="script.js"></script>
+
 </body>
+
 </html>
