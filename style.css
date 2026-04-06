@@ -1,18 +1,18 @@
-/* 1. 기본 설정 */
+/* 1. 기본 배경 및 여백 설정 */
 body {
     margin: 0;
     padding: 0;
-    background-color: #fdf6e3;
-    font-family: sans-serif;
+    background-color: #fdf6e3; /* 전체 배경색 */
+    font-family: 'Malgun Gothic', sans-serif;
 }
 
-/* 2. 상단 제목 고정 (겹침 방지) */
+/* 2. 상단 헤더 고정 (제목 겹침 방지) */
 header {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    height: 70px !important;
+    height: 60px !important;
     background-color: #fff !important;
     display: flex !important;
     align-items: center !important;
@@ -22,76 +22,83 @@ header {
     box-sizing: border-box !important;
 }
 
-/* 3. 보드 영역 (메모지 배치 핵심) */
+header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+/* 3. 메모지 보드 (따닥따닥 붙게 만드는 핵심 설정) */
 #board {
-    padding: 110px 20px 50px 20px !important; /* 헤더 높이만큼 여백 */
-    display: flex !important;
-    flex-wrap: wrap !important;      /* 자리가 없으면 다음 줄로 넘김 */
-    justify-content: center !important;
-    align-items: flex-start !important; /* 중요: 각 메모지가 자기 높이만 차지함 */
-    gap: 30px !important;            /* 메모지 사이 간격 (겹침 방지) */
+    padding: 80px 20px 100px 20px !important; /* 위쪽은 헤더 높이만큼 띄움 */
+    
+    /* 메모지들을 다단(Column)으로 배치해서 빈틈을 없앰 */
+    column-width: 280px !important; /* 메모지 너비에 맞춰 단 설정 */
+    column-gap: 15px !important;   /* 좌우 간격 */
+    
     width: 100% !important;
-    min-height: 100vh !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    display: block !important; /* flex를 끄고 block으로 설정해야 column이 먹힘 */
     box-sizing: border-box !important;
 }
 
-/* 4. 메모지(post-it) 스타일 (길이 자동 조절) */
+/* 4. 개별 메모지(post-it) 설정 */
 .post-it {
-    position: relative !important;   /* JS의 absolute 위치 지정을 무시함 */
-    top: auto !important;
-    left: auto !important;
+    /* 다음 줄로 넘어갈 때 잘리지 않게 설정 */
+    display: inline-block !important; 
+    break-inside: avoid !important; 
     
-    width: 280px !important;         /* 가로 길이는 유지 */
-    height: auto !important;         /* 글자 수에 따라 세로로 늘어남 (핵심) */
-    min-height: 180px !important;    /* 글이 적어도 기본 크기 유지 */
+    width: 100% !important; /* column-width에 맞춰서 꽉 채움 */
+    margin-bottom: 15px !important; /* 상하 간격 (따닥따닥) */
     
+    position: relative !important;
+    background: #fff;
     padding: 20px !important;
-    border-radius: 10px !important;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.1) !important;
     box-sizing: border-box !important;
     
-    /* 글자 관련 설정 */
+    /* 글자 설정 */
     word-break: break-all !important;
     white-space: pre-wrap !important;
-    line-height: 1.6 !important;
-    font-size: 16px !important;
-    
-    display: flex !important;
-    flex-direction: column !important;
+    line-height: 1.5 !important;
 }
 
-/* 메모지 내 이미지 및 글자 */
+/* 메모지 내부 요소 */
 .post-it img {
     max-width: 100% !important;
     height: auto !important;
-    margin-bottom: 10px !important;
-    border-radius: 5px !important;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
-.post-it h3 { margin: 0 0 10px 0; font-size: 1.1em; }
-.post-it p { margin: 0; }
+.post-it h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+}
+
+.post-it p {
+    margin: 0;
+    font-size: 15px;
+    color: #444;
+}
 
 /* 5. 삭제 버튼(x) */
 .del-btn {
     position: absolute !important;
-    top: 5px !important;
-    right: 5px !important;
+    top: 8px !important;
+    right: 8px !important;
     background: none !important;
     border: none !important;
-    font-size: 20px !important;
+    font-size: 18px !important;
     cursor: pointer !important;
-    color: rgba(0,0,0,0.3) !important;
+    color: #ccc !important;
 }
-.del-btn:hover { color: red !important; }
+.del-btn:hover { color: #ff5252 !important; }
 
-/* 6. 기타 버튼 및 모달 */
+/* 6. 작성 버튼 및 모달 레이어 */
 #add-btn { z-index: 2100 !important; }
-.modal-overlay, .black-confirm-overlay { 
-    z-index: 3000 !important; 
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.5);
-    display: none; /* JS에서 조절 */
-    justify-content: center;
-    align-items: center;
-}
+.modal-overlay, .black-confirm-overlay { z-index: 3000 !important; }
